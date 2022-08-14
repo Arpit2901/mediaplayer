@@ -5,7 +5,9 @@ volumeBtn=container.querySelector(".volume i"),
 volumeSlider=container.querySelector(".left input"),
 skipBackward= container.querySelector(".skip-backward i"),
 skipForward= container.querySelector(".skip-forward i"),
-playPauseBtn= container.querySelector(".play-pause i");
+playPauseBtn= container.querySelector(".play-pause i"),
+speedBtn= container.querySelector(".playback-speed span"),
+speedOptions= container.querySelector(".speed-options");
 
 mainVideo.addEventListener("timeupdate",e=>{
     let {currentTime,duration}=e.target;
@@ -21,6 +23,7 @@ volumeBtn.addEventListener("click",()=>{
         mainVideo.volume=0.0;
         volumeBtn.classList.replace("fa-volume-high","fa-volume-xmark")
     }
+    volumeSlider.value=mainVideo.volume;
 })
 
 volumeSlider.addEventListener("click",e=>{
@@ -30,7 +33,21 @@ volumeSlider.addEventListener("click",e=>{
     }else{
         volumeBtn.classList.replace("fa-volume-xmark","fa-volume-high")
     }
-    volumeSlider.value=mainVideo.volume;
+})
+
+speedBtn.addEventListener("click",()=>{
+    speedOptions.classList.toggle("show"); 
+})
+
+speedOptions.querySelectorAll("li").forEach(Option=>{
+   Option.addEventListener("click",()=>{
+    mainVideo.playbackRate=Option.dataset.speed;
+   })
+})
+document.addEventListener("click",e=>{
+    if(e.target.tagName!=="SPAN"||e.target.className!=="material-symbols-rounded"){
+        speedOptions.classList.remove("show");
+    }
 })
 
 skipBackward.addEventListener("click",()=>{
